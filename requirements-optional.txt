@@ -1,0 +1,3 @@
+# Heavy or fragile on new Python versions; install by hand if needed:
+botorch
+fanova

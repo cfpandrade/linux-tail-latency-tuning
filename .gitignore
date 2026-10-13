@@ -1,0 +1,5 @@
+.venv/
+build/
+bin/
+.trash/
+__pycache__/
