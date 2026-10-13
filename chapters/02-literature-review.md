@@ -1,6 +1,6 @@
 # Background and Literature Review
 
-This chapter reviews the body of work on which the dissertation builds. Section 2.1 establishes why tail latency, rather than mean latency, is the quantity of interest and why it carries economic and regulatory weight. Section 2.2 decomposes the sources of latency variance in the Linux kernel. Section 2.3 surveys kernel-resident tuning techniques, and Section 2.4 examines kernel bypass and its contemporary limits. Section 2.5 treats the Precision Time Protocol as a measurement instrument rather than an intervention. Section 2.6 synthesises these threads into the research gap that the dissertation addresses.
+This chapter reviews the body of work on which the dissertation builds. Section 2.1 establishes why tail latency, not the mean, is the quantity of interest and why it carries economic and regulatory weight. Section 2.2 decomposes the sources of latency variance in the Linux kernel. Section 2.3 surveys kernel-resident tuning techniques, and Section 2.4 examines kernel bypass and its contemporary limits. Section 2.5 treats the Precision Time Protocol as a measurement instrument rather than an intervention. Section 2.6 synthesises these threads into the research gap that the dissertation addresses.
 
 ## 2.1 Tail Latency and its Economic Significance
 
