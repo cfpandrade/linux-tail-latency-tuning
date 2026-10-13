@@ -1,19 +1,36 @@
 # Introduction
 
 ## 1.1 Context and Motivation
-High-frequency trading operates where tail latency (99th and 99.9th percentiles), not mean latency, governs profitability and regulatory compliance. Establish the microsecond regime and why variance matters.
+
+Electronic financial markets now operate at a time scale where competitive advantage is measured in microseconds. Hasbrouck and Saar, analysing NASDAQ order data, showed that reaction times in low-latency trading had already collapsed below the millisecond boundary more than a decade ago, and the intervening years have brought further compression driven by sustained investment in specialised infrastructure [2]. In this regime, mean latency is largely uninformative. What governs both profitability and regulatory exposure is the tail of the latency distribution.
+
+The significance of the tail is not specific to finance. Dean and Barroso, in their analysis of large-scale distributed systems, demonstrated that user-perceived latency is dominated by the slowest constituent of a request, and that reporting the mean systematically understates this effect by one to two orders of magnitude [1]. For a market-making engine the consequences are immediate and economic: a single outlier of a few hundred microseconds during a volatility spike can invalidate a live quote, expose the firm to adverse selection, or breach the clock-synchronisation bound mandated by Regulatory Technical Standard 25 under Directive 2014/65/EU, commonly known as MiFID II [3]. The quantity that matters is therefore a tight, measurable bound on the 99th and 99.9th percentiles of tick-to-trade latency under representative load, not an average.
 
 ## 1.2 Problem Statement
-Kernel-bypass (DPDK, RDMA) dominates on-premises HFT but carries operational complexity, hardware lock-in, and poor cloud compatibility. Recent AWS Nitro PTP Hardware Clocks and maturing kernel features reopen the design space.
+
+The Linux kernel exhibits a degree of latency variance that is perfectly acceptable for general-purpose workloads and unacceptable for latency-critical ones. Documented sources include interrupt coalescing, softirq deferral, dynamic frequency scaling, scheduler migration, contention on NUMA memory controllers, and the periodic scheduling-clock interrupt [4], [5], [7]. The established industry response has been kernel bypass: frameworks such as DPDK, RDMA, AF_XDP, and Solarflare OpenOnload dedicate a network interface to a single application, trading protection and portability for deterministic packet delivery [8], [9].
+
+Two developments motivate a renewed examination of this trade-off. First, recent evidence suggests that the gap between a carefully tuned kernel and a bypass stack is narrower than it was a decade ago: a well-configured kernel recovers a substantial fraction of the determinism bypass promises [11], [12], and io_uring offers a hybrid path that preserves kernel abstractions while removing most context-switch overhead [13]. Second, precise time has been democratised. Sub-microsecond synchronisation once required GPS-disciplined grand-master clocks and dedicated boundary-clock switches [14], [15]; AWS Nitro and equivalent cloud offerings now expose Precision Time Protocol Hardware Clocks directly to guest instances, achieving synchronisation of approximately one microsecond without customer-owned hardware [16], [17]. The methodological consequence is that a high-precision measurement substrate, decoupled from the system under test, is now available in the public cloud, a precondition for credible tail-latency experimentation.
+
+Despite these shifts, the interaction of cloud-provided time synchronisation with kernel-resident tuning has not been characterised in the peer-reviewed literature. Kernel-tuning studies are predominantly conducted on bare-metal hardware with commodity NTP for measurement; the formal latency-bound literature targets embedded and bare-metal real-time systems rather than virtualised servers; and the emerging cloud time-synchronisation literature consists largely of vendor case studies. No published study has quantified the tail-latency distribution of a cloud-hosted, kernel-tuned Linux system against an analytical bound under an HFT-representative workload while using hardware timestamps to control measurement error.
 
 ## 1.3 Research Question
-To what extent can kernel-level tuning, combined with cloud-provided PTP synchronisation, approach the deterministic tail-latency behaviour of kernel-bypass solutions in an HFT context.
+
+This dissertation addresses the following central question: to what extent can kernel-level tuning, combined with cloud-provided Precision Time Protocol synchronisation, approach the deterministic tail-latency behaviour of kernel-bypass solutions in a high-frequency trading context? The work is deliberately framed around an HFT-adjacent synthetic workload rather than a production trading engine, for reasons of reproducibility and research ethics discussed in Chapter 4.
 
 ## 1.4 Aim and Objectives
-State the overall aim and the four research questions (RQ1 to RQ4).
+
+The overall aim is to characterise and bound the deterministic tail latency attainable by a kernel-resident, PTP-synchronised Linux system in a public-cloud, HFT-adjacent context. This aim decomposes into four research questions, developed in full in Chapter 3:
+
+1. How do individual kernel-tuning interventions (IRQ affinity, CPU isolation, NUMA-aware allocation, tickless operation, and PREEMPT_RT) contribute to reduction of the 95th, 99th, and 99.9th percentiles of tick-to-trade latency, independently and in combination?
+2. To what extent does cloud-provided PTP hardware timestamping reduce measurement uncertainty, and does it change the qualitative conclusions that NTP-based measurement would support?
+3. Can an analytical scheduling-latency bound, parameterised by empirically measured interrupt rates and interference distributions, predict the observed 99.9th-percentile latency within a stated confidence interval?
+4. What is the residual tail-latency gap between the best kernel-tuned configuration and published kernel-bypass baselines, and is it narrow enough to justify kernel-resident deployment in cloud HFT-adjacent workflows?
 
 ## 1.5 Contributions
-Hybrid empirical and analytical methodology; study of the under-characterised cloud-virtualised regime; open reproducible benchmark artefact.
+
+The dissertation makes three principal contributions. The first is a hybrid methodology that combines controlled empirical measurement with an analytical scheduling-latency bound, allowing observed percentiles to be tested against a theoretical prediction rather than reported in isolation. The second is an investigation of the under-characterised cloud-virtualised regime, in which the research gap above was identified. The third is an open, reproducible benchmark harness, released under a permissive licence, that can serve as a reusable substrate for subsequent low-latency Linux research.
 
 ## 1.6 Dissertation Structure
-Roadmap of the remaining chapters.
+
+The remainder of the dissertation is organised as follows. Chapter 2 reviews the literature on tail latency, sources of variance in Linux, kernel-resident tuning, kernel bypass, and precision time, and states the research gap. Chapter 3 articulates the research aim, questions, and falsifiable hypothesis. Chapter 4 presents the methodology, including the experimental platform, synthetic workload, tuning scenarios, and analytical model. Chapter 5 describes the implementation of the benchmark harness and the cloud provisioning. Chapter 6 reports and analyses the results against each research question. Chapter 7 discusses the findings, their implications for practice and regulation, and the study limitations. Chapter 8 concludes and sets out future work.
