@@ -1,13 +1,29 @@
 # Implementation
 
-## 5.1 Benchmark Harness
-Structure of the C++20 pipeline, ring-buffer design, and timestamp capture. Build system and reproducibility notes.
+## 5.1 Overview
 
-## 5.2 Cloud Provisioning and Configuration
-Infrastructure-as-code for EC2 provisioning, placement group, PHC setup, phc2sys, and ENA timestamping enablement.
+This chapter describes the realisation of the benchmark harness and the supporting infrastructure that the methodology of Chapter 4 prescribes. The implementation has three parts: the synthetic tick-to-trade workload and its measurement pipeline, the cloud provisioning and configuration that produce the six tuning scenarios, and a local pilot that validates the measurement approach before any cloud expenditure is committed. The guiding principle throughout is reproducibility: every artefact is scripted, version-controlled, and released under a permissive licence, so that a third party can reconstruct the experiment from the repository alone.
 
-## 5.3 Tuning Configurations S0 to S5
-Concrete steps per scenario: irqbalance, IRQ affinity scripts, cpuset isolation, NUMA binding, nohz_full boot parameters, PREEMPT_RT kernel and SCHED_FIFO priorities.
+## 5.2 Benchmark Harness
 
-## 5.4 Measurement and Data Collection Pipeline
-osnoise tracer capture, HdrHistogram flushing per trial, and the data layout written to data/ for analysis.
+The workload is implemented in C++20 as three pipeline stages connected by single-producer single-consumer lock-free ring buffers. The producer stage generates messages whose inter-arrival times are drawn from an exponential distribution, which realises the Poisson arrival process at the four target rates. The strategy stage performs a bounded, deterministic unit of work that stands in for a market-making decision, chosen so that its service time is stable and does not itself introduce variance that would mask the kernel effects under study. The emitter stage records the completion timestamp and releases the buffer slot.
+
+Timestamps are captured at the four points defined in Section 4.3. On the cloud platform these come from the Elastic Network Adapter hardware timestamping and the PTP Hardware Clock; within the application they come from a monotonic clock read with a fixed, measured overhead that is subtracted during analysis. Each latency sample is recorded into an HdrHistogram accumulator per trial, which preserves the full distribution and allows the 99th and 99.9th percentiles to be recovered without storing every sample. Accumulators are flushed to disk at the end of each trial and later combined for statistical analysis.
+
+## 5.3 Cloud Provisioning and Scenario Configuration
+
+Provisioning is fully scripted so that each trial begins from a known, identical state. Instances are launched into a single cluster placement group within one Availability Zone, and the PTP Hardware Clock and ENA hardware timestamping are enabled at boot. The six scenarios are expressed as a layered set of configuration steps applied through boot parameters, cgroup v2 cpuset assignments, IRQ affinity masks, and, for the final scenario, a PREEMPT_RT kernel with the strategy thread promoted to SCHED_FIFO. Because each scenario is a strict superset of the previous one, the configuration is organised as an ordered series of toggles rather than six independent definitions, which keeps the difference between consecutive scenarios to a single mechanism and reduces the chance of configuration drift.
+
+Measurement support runs alongside the workload: the osnoise tracer records per-scenario interrupt rates that feed the analytical model, phc2sys reports the PTP offset so that measurement fidelity can be audited, and hardware performance counters capture cache-miss and context-switch rates as corroborating secondary metrics.
+
+## 5.4 Local Pilot
+
+Before committing cloud resources, a local pilot was implemented in Python to confirm that the measurement pipeline behaves as intended and that the harness produces a well-formed latency distribution across percentiles. The pilot reproduces the tick-to-trade loop in miniature: it drives a synthetic workload under a Poisson arrival process, records per-message latency, and reports the 50th, 95th, 99th, and 99.9th percentiles to the same HdrHistogram-style summary used on the cloud platform. Python was chosen deliberately for this stage because the goal is fast iteration on the measurement and analysis path, not absolute latency; the production workload remains the C++20 implementation described above.
+
+The pilot served two purposes. First, it exposed a calibration error in an early configuration: at an overly aggressive offered load the synthetic work per message exceeded the arrival interval, so the system saturated and the pilot measured queueing delay rather than scheduling jitter. Recalibrating the arrival rate against a measured per-message service time corrected this and produced a stable, well-separated set of percentiles. This outcome is itself a useful validation, because it confirms that the harness is sensitive to the saturation regime that the Poisson model in Section 4.6 is designed to probe.
+
+Second, the pilot established the environmental preconditions for the tuning interventions. Running without elevated privileges, the pilot could not acquire the SCHED_FIFO real-time policy or isolate cores, and the real-time scenario was therefore unavailable; the attempt was rejected with a permission error. This is consistent with expectation rather than a defect: the real-time and isolation mechanisms that distinguish the higher scenarios require privileges and hardware control that a general-purpose host does not grant by default. The observation reinforces the methodological argument of Chapter 4 that the cloud bare-metal platform, where these privileges and the PTP Hardware Clock are both available, is a precondition for the full experiment rather than a convenience.
+
+## 5.5 Reproducibility
+
+All code, provisioning scripts, and configuration are held in a single version-controlled repository with a committed history, and the reference bibliography and written chapters are managed in the same tree. The artefacts required to reproduce the experiment, the workload source, the scenario configuration, the analysis scripts, and the pilot, are released under the Apache 2.0 licence. A reader with an AWS account can therefore provision the instances, run the six scenarios at the four loads, and regenerate the figures and statistics from the raw accumulators, which satisfies the reproducibility commitment made in Section 4.8.
