@@ -16,9 +16,13 @@ Hardware timestamps are captured at four points along the pipeline: NIC ingress 
 
 ## 4.4 System Architecture and CPU Layout
 
-The experimental topology consists of two instances, a producer and a consumer, each equipped with the Elastic Network Adapter and the PTP Hardware Clock, with a common time reference supplied by the GPS-disciplined Amazon Time Sync infrastructure. Data-plane traffic flows between the two instances while PTP synchronisation runs on a separate logical path, so that the measurement clock is decoupled from the system under test.
+The experimental topology consists of two instances, a producer and a consumer, each equipped with the Elastic Network Adapter and the PTP Hardware Clock, with a common time reference supplied by the GPS-disciplined Amazon Time Sync infrastructure. Data-plane traffic flows between the two instances while PTP synchronisation runs on a separate logical path, so that the measurement clock is decoupled from the system under test. Figure 4.1 shows this topology.
 
-Under the fully optimised configuration the CPU, IRQ, and NUMA resources are partitioned explicitly. Network-interface interrupts are pinned to a pair of cores on NUMA node 0. Two cores are reserved for housekeeping work so that kernel background activity does not contend with the critical path. The ring-buffer producer runs on a dedicated pair of cores, and the strategy evaluator runs on a further set of cores on the same NUMA node under the SCHED_FIFO real-time policy. Keeping the producer, the evaluator, and the interrupt handlers on a single NUMA node avoids cross-node memory traffic, which Section 2.2 identified as a dominant source of variance.
+![Cloud-hosted experimental topology. Solid lines indicate data-plane traffic; dashed lines indicate PTP synchronisation.](figures/topology.png)
+
+Under the fully optimised configuration the CPU, IRQ, and NUMA resources are partitioned explicitly. Network-interface interrupts are pinned to a pair of cores on NUMA node 0. Two cores are reserved for housekeeping work so that kernel background activity does not contend with the critical path. The ring-buffer producer runs on a dedicated pair of cores, and the strategy evaluator runs on a further set of cores on the same NUMA node under the SCHED_FIFO real-time policy. Keeping the producer, the evaluator, and the interrupt handlers on a single NUMA node avoids cross-node memory traffic, which Section 2.2 identified as a dominant source of variance. Figure 4.2 illustrates this layout under the fully optimised configuration.
+
+![CPU, IRQ, and NUMA layout under the fully optimised configuration (S5).](figures/cpu_layout.png)
 
 ## 4.5 Experimental Scenarios
 
@@ -30,7 +34,11 @@ Each scenario runs at each of the four offered loads for 30 minutes, following a
 
 The analytical component instantiates the scheduling-latency bound derived for PREEMPT_RT by Bristot de Oliveira and colleagues [@bristot2020demystifying]. Their result expresses the worst-case scheduling latency as the sum of a set of blocking and interference terms: the sched-tail delay, the longest preemption or interrupt-disabled interval that postpones the scheduler, the transient preemption and interrupt-enabled window preceding a scheduler invocation, the duration of the scheduler's own code path, and two load-dependent interference functions arising from non-maskable and ordinary interrupts. Because the interference terms themselves depend on the latency being bounded, the expression is evaluated iteratively until it converges to a fixed point.
 
-In this work the interference functions are not taken from the literature but parameterised directly from per-scenario interrupt rates measured on the running system through the kernel osnoise tracer. This yields a predicted 99.9th-percentile bound for each scenario, which can be compared against the empirically measured percentile. Because arrivals are Poisson, the model is evaluated at each of the four loads in order to test whether it captures the super-linear growth of the tail as the system approaches saturation. The comparison of prediction against measurement constitutes the falsifiable test at the centre of RQ3.
+In this work the interference functions are not taken from the literature but parameterised directly from per-scenario interrupt rates measured on the running system through the kernel osnoise tracer. This yields a predicted 99.9th-percentile bound for each scenario, which can be compared against the empirically measured percentile. Because arrivals are Poisson, the model is evaluated at each of the four loads in order to test whether it captures the super-linear growth of the tail as the system approaches saturation. The comparison of prediction against measurement constitutes the falsifiable test at the centre of RQ3. Figures 4.3 and 4.4 are planning illustrations of the anticipated trends; they orient the reader and do not depict empirical results.
+
+![Anticipated tick-to-trade latency CDF (illustrative sketch).](figures/latency_cdf_illustrative.png)
+
+![Anticipated tail-latency progression across scenarios (illustrative).](figures/tail_progression_illustrative.png)
 
 ## 4.7 Metrics and Statistical Analysis
 
