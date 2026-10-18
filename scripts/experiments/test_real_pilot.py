@@ -34,6 +34,16 @@ class PureTests(unittest.TestCase):
         self.assertEqual(cyc[cyc.index("-p") + 1], "80")
         self.assertEqual(cyc[cyc.index("-a") + 1], "3")
         self.assertNotIn("3", stress[2].split(","))
+        # Parameters the methodology chapter relies on: 200 us interval, 20 ms histogram, duration,
+        # one matrix-multiplication worker per permitted CPU, two 256 MiB memory workers.
+        self.assertEqual(cyc[cyc.index("-i") + 1], "200")
+        self.assertEqual(cyc[cyc.index("-h") + 1], "20000")
+        self.assertEqual(cyc[cyc.index("-D") + 1], "10")
+        self.assertEqual(cyc[cyc.index("-t") + 1], "1")
+        self.assertEqual(stress[stress.index("--cpu") + 1], str(len(stress[2].split(","))))
+        self.assertEqual(stress[stress.index("--cpu-method") + 1], "matrixprod")
+        self.assertEqual(stress[stress.index("--vm") + 1], "2")
+        self.assertEqual(stress[stress.index("--vm-bytes") + 1], "256M")
         _, cyc0 = R.commands(R.DEFAULT, 10, "/tmp/h")
         self.assertNotIn("-p", cyc0)
         self.assertNotIn("-a", cyc0)
@@ -45,6 +55,10 @@ class PureTests(unittest.TestCase):
         p = R.percentiles({10: 998}, 2)  # overflow is right-censored at HIST_MAX_US
         self.assertEqual(p["p999"], R.HIST_MAX_US)
         self.assertEqual(p["overflow"], 2)
+        # Floating-point rank guard: 99.9 * 41000 / 100 evaluates to 40959.00000000001, so an unguarded
+        # ceil() gives rank 40960 and selects the next bin (300) instead of the correct one (10).
+        p = R.percentiles({10: 40959, 300: 41}, 0)
+        self.assertEqual(p["p999"], 10)
 
     def test_parse_hist(self):
         with tempfile.NamedTemporaryFile("w", delete=False) as f:
