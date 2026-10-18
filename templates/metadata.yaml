@@ -1,7 +1,7 @@
 ---
 title: "Tail-Latency Tuning of Linux for Low-Latency Trading"
 subtitle: "An Empirical Study of User-Space Mechanisms and Bayesian Optimisation, with a Design for Cloud Evaluation"
-author: "Carlos Andrade (Student Number 2500731)"
+author: "Carlos Perez Andrade (Student Number 2500731)"
 date: '`\vspace{1.5em}Supervisor: Dr Vahid Rafe\\[1.5em] Module 7CS077 Dissertation\\[0.5em] A dissertation submitted in partial fulfilment of the requirements for the degree of\\[0.5em] MSc Computer Science with Artificial Intelligence\\[0.5em] University of Wolverhampton\\[1.5em] October 2026`{=latex}'
 csl: templates/harvard-cite-them-right.csl
 link-citations: true

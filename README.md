@@ -3,7 +3,7 @@
 An empirical study of user-space mechanisms and Bayesian optimisation, with a design for cloud evaluation.
 
 MSc Computer Science with Artificial Intelligence dissertation, University of Wolverhampton, module 7CS077, October 2026.
-Author: Carlos Andrade. Supervisor: Dr Vahid Rafe.
+Author: Carlos Perez Andrade (student number 2500731). Supervisor: Dr Vahid Rafe.
 
 The compiled dissertation is `build/dissertation.pdf`. Repository: https://github.com/cfpandrade/linux-tail-latency-tuning
 
