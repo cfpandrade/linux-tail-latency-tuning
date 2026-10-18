@@ -1,0 +1,423 @@
+{
+  "note": "Synthetic latency model; validates methodology only.",
+  "seeds": 12,
+  "evals": 40,
+  "default_p999_us": {
+    "mean": 776.7573396412023,
+    "sd": 26.47743036575866
+  },
+  "bo_p999_us": {
+    "median": 10.31521107359099,
+    "mean": 10.335611011606316,
+    "min": 10.273568882731675,
+    "max": 10.410381011671442
+  },
+  "random_p999_us": {
+    "median": 12.002544704051235,
+    "mean": 19.952425385359945,
+    "min": 10.31521107359099,
+    "max": 109.70557248005942
+  },
+  "reduction_vs_default_bo": 0.9867201627237204,
+  "reduction_vs_default_random": 0.9845478837578858,
+  "mannwhitney_bo_less_than_random": {
+    "U": 7.5,
+    "p": 9.760877576846268e-05
+  },
+  "runs": [
+    {
+      "method": "bo",
+      "seed": 0,
+      "best_cfg": {
+        "isolated_cores": 3,
+        "irq_affinity": 1,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.34641788797869,
+      "reeval_p999_sd": 0.05460807829352219
+    },
+    {
+      "method": "random",
+      "seed": 0,
+      "best_cfg": {
+        "isolated_cores": 1,
+        "irq_affinity": 1,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 19,
+        "irq_coalesce_us": 4
+      },
+      "reeval_p999_mean": 11.130058878603494,
+      "reeval_p999_sd": 0.08397866973220719
+    },
+    {
+      "method": "bo",
+      "seed": 1,
+      "best_cfg": {
+        "isolated_cores": 4,
+        "irq_affinity": 1,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 59,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.273568882731675,
+      "reeval_p999_sd": 0.04792377408498236
+    },
+    {
+      "method": "random",
+      "seed": 1,
+      "best_cfg": {
+        "isolated_cores": 1,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 0,
+        "numa_pinned": 1,
+        "rt_priority": 28,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 109.70557248005942,
+      "reeval_p999_sd": 151.28490945699625
+    },
+    {
+      "method": "bo",
+      "seed": 2,
+      "best_cfg": {
+        "isolated_cores": 8,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 99,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.356142374797212,
+      "reeval_p999_sd": 0.052989120087161404
+    },
+    {
+      "method": "random",
+      "seed": 2,
+      "best_cfg": {
+        "isolated_cores": 3,
+        "irq_affinity": 1,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 91,
+        "irq_coalesce_us": 16
+      },
+      "reeval_p999_mean": 11.844278807671055,
+      "reeval_p999_sd": 0.06790684830321743
+    },
+    {
+      "method": "bo",
+      "seed": 3,
+      "best_cfg": {
+        "isolated_cores": 7,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.31521107359099,
+      "reeval_p999_sd": 0.05085794451826579
+    },
+    {
+      "method": "random",
+      "seed": 3,
+      "best_cfg": {
+        "isolated_cores": 6,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 76,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.31521107359099,
+      "reeval_p999_sd": 0.05085794451826579
+    },
+    {
+      "method": "bo",
+      "seed": 4,
+      "best_cfg": {
+        "isolated_cores": 6,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 73,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.31521107359099,
+      "reeval_p999_sd": 0.05085794451826579
+    },
+    {
+      "method": "random",
+      "seed": 4,
+      "best_cfg": {
+        "isolated_cores": 7,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 1,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 78,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 11.14042795947827,
+      "reeval_p999_sd": 0.05492658007972669
+    },
+    {
+      "method": "bo",
+      "seed": 5,
+      "best_cfg": {
+        "isolated_cores": 6,
+        "irq_affinity": 1,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.273568882731675,
+      "reeval_p999_sd": 0.04792377408498236
+    },
+    {
+      "method": "random",
+      "seed": 5,
+      "best_cfg": {
+        "isolated_cores": 7,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 0,
+        "numa_pinned": 1,
+        "rt_priority": 47,
+        "irq_coalesce_us": 3
+      },
+      "reeval_p999_mean": 11.04610519684048,
+      "reeval_p999_sd": 0.06380267433416864
+    },
+    {
+      "method": "bo",
+      "seed": 6,
+      "best_cfg": {
+        "isolated_cores": 8,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.31521107359099,
+      "reeval_p999_sd": 0.05085794451826579
+    },
+    {
+      "method": "random",
+      "seed": 6,
+      "best_cfg": {
+        "isolated_cores": 5,
+        "irq_affinity": 1,
+        "nohz_full": 1,
+        "preempt_rt": 1,
+        "governor_performance": 0,
+        "numa_pinned": 1,
+        "rt_priority": 34,
+        "irq_coalesce_us": 8
+      },
+      "reeval_p999_mean": 12.160810600431414,
+      "reeval_p999_sd": 0.05887612213583596
+    },
+    {
+      "method": "bo",
+      "seed": 7,
+      "best_cfg": {
+        "isolated_cores": 5,
+        "irq_affinity": 1,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 99,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.380816719738686,
+      "reeval_p999_sd": 0.057363125855092734
+    },
+    {
+      "method": "random",
+      "seed": 7,
+      "best_cfg": {
+        "isolated_cores": 6,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 0,
+        "rt_priority": 55,
+        "irq_coalesce_us": 19
+      },
+      "reeval_p999_mean": 13.3157515751911,
+      "reeval_p999_sd": 0.07926357167390806
+    },
+    {
+      "method": "bo",
+      "seed": 8,
+      "best_cfg": {
+        "isolated_cores": 8,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.31521107359099,
+      "reeval_p999_sd": 0.05085794451826579
+    },
+    {
+      "method": "random",
+      "seed": 8,
+      "best_cfg": {
+        "isolated_cores": 6,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 50,
+        "irq_coalesce_us": 10
+      },
+      "reeval_p999_mean": 11.274627143326146,
+      "reeval_p999_sd": 0.06156526081961429
+    },
+    {
+      "method": "bo",
+      "seed": 9,
+      "best_cfg": {
+        "isolated_cores": 5,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.410381011671442,
+      "reeval_p999_sd": 0.05614429706377294
+    },
+    {
+      "method": "random",
+      "seed": 9,
+      "best_cfg": {
+        "isolated_cores": 8,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 1,
+        "governor_performance": 0,
+        "numa_pinned": 1,
+        "rt_priority": 7,
+        "irq_coalesce_us": 13
+      },
+      "reeval_p999_mean": 12.769240445027823,
+      "reeval_p999_sd": 0.07715272503467804
+    },
+    {
+      "method": "bo",
+      "seed": 10,
+      "best_cfg": {
+        "isolated_cores": 8,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 45,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.31521107359099,
+      "reeval_p999_sd": 0.05085794451826579
+    },
+    {
+      "method": "random",
+      "seed": 10,
+      "best_cfg": {
+        "isolated_cores": 6,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 1,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 32,
+        "irq_coalesce_us": 14
+      },
+      "reeval_p999_mean": 12.35385192325204,
+      "reeval_p999_sd": 0.06118456255378763
+    },
+    {
+      "method": "bo",
+      "seed": 11,
+      "best_cfg": {
+        "isolated_cores": 4,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "reeval_p999_mean": 10.410381011671442,
+      "reeval_p999_sd": 0.05614429706377294
+    },
+    {
+      "method": "random",
+      "seed": 11,
+      "best_cfg": {
+        "isolated_cores": 7,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 0,
+        "rt_priority": 39,
+        "irq_coalesce_us": 8
+      },
+      "reeval_p999_mean": 12.37316854084709,
+      "reeval_p999_sd": 0.06897287850766255
+    }
+  ],
+  "importance": {
+    "isolated_cores": 0.2598967547939775,
+    "irq_coalesce_us": 0.07589820259650976,
+    "nohz_full": 0.0383431330205749,
+    "rt_priority": 0.027005129127349207,
+    "numa_pinned": 0.01995741105034639,
+    "irq_affinity": 0.01878723494155118,
+    "preempt_rt": 0.01282914202869272,
+    "governor_performance": 0.007197030292988157
+  }
+}

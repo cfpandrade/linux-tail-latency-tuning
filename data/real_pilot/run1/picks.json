@@ -1,0 +1,72 @@
+{
+  "bo#0": {
+    "policy": 1,
+    "rt_priority": 1,
+    "cpu": 10,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "random#0": {
+    "policy": 1,
+    "rt_priority": 80,
+    "cpu": -1,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "bo#1": {
+    "policy": 1,
+    "rt_priority": 52,
+    "cpu": 10,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "random#1": {
+    "policy": 1,
+    "rt_priority": 36,
+    "cpu": -1,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "bo#2": {
+    "policy": 1,
+    "rt_priority": 1,
+    "cpu": -1,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "random#2": {
+    "policy": 1,
+    "rt_priority": 64,
+    "cpu": 6,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "bo#3": {
+    "policy": 1,
+    "rt_priority": 99,
+    "cpu": -1,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "random#3": {
+    "policy": 1,
+    "rt_priority": 76,
+    "cpu": 1,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "bo#4": {
+    "policy": 1,
+    "rt_priority": 1,
+    "cpu": -1,
+    "isolate": 0,
+    "sibling_free": 0
+  },
+  "random#4": {
+    "policy": 1,
+    "rt_priority": 20,
+    "cpu": 2,
+    "isolate": 0,
+    "sibling_free": 0
+  }
+}

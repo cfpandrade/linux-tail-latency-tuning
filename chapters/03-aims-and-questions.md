@@ -1,31 +1,31 @@
-# Research Aims and Questions
+# 3 Research Aims and Questions
 
-## 3.1 Overall Aim
+## 3.1 Aim and Objectives
 
-The overall aim is to characterise and bound the deterministic tail latency attainable by a kernel-resident, PTP-synchronised Linux system in a public-cloud, HFT-adjacent context. The emphasis is on the 99th and 99.9th percentiles of tick-to-trade latency, measured under a representative synthetic workload and compared against both an analytical bound and published kernel-bypass baselines. The aim is framed so that success is defined not by a single headline figure but by a defensible, reproducible characterisation of the whole tail of the distribution across a realistic range of offered load.
+The long-term aim of this line of work is to characterise and bound the tail latency attainable by a kernel-resident, PTP-synchronised Linux system in a public-cloud, HFT-adjacent context. Within the resources of this project, the aim is to establish on commodity Linux hardware how much of the scheduling-latency tail can be removed with the tuning mechanisms that need no kernel reconfiguration, and whether a good combination of them can be found automatically with a small measurement budget and independent re-measurement of the result. Five objectives serve this aim:
 
-## 3.2 Objectives
+1. Build a reproducible harness that records the full wake-up latency distribution of a periodic thread under controlled contention, with per-core interrupt rates, and that can be driven by a search procedure.
+2. Measure the effect of real-time scheduling policy and priority, CPU pinning, affinity-based isolation of the latency-critical core, and exclusion of its SMT sibling, one at a time and in combination.
+3. Compare Bayesian optimisation against random search as procedures for choosing a configuration, using independent re-measurement of the selected configurations.
+4. Use a synthetic latency model with a known optimum to quantify how many measurements each procedure needs, and test whether that conclusion survives perturbation of the model.
+5. Outline the design of the cloud study as the basis for future work (Appendix A).
 
-The aim is pursued through five concrete objectives, which together convert the research gap identified in Section 2.6 into an executable programme of work.
+## 3.2 Research Questions
 
-1. Build a reproducible synthetic tick-to-trade workload and a four-point hardware-timestamped measurement pipeline that isolate scheduling behaviour from application artefacts.
-2. Define an incremental gradient of tuning scenarios, from a stock baseline to a fully tuned real-time configuration, so that the marginal contribution of each mechanism can be attributed rather than confounded.
-3. Quantify the tail-latency distribution of each scenario across a realistic range of offered load, with statistical treatment appropriate to heavy-tailed, non-Gaussian data.
-4. Instantiate an analytical scheduling-latency bound with empirically measured parameters, and test its predictions against the observed percentiles.
-5. Situate the best kernel-tuned result against published kernel-bypass figures, so that the residual gap is quantified rather than asserted.
+RQ1. On a commodity Linux host without a real-time kernel, how much do real-time scheduling, CPU pinning, affinity-based isolation, and SMT sibling exclusion reduce the 99th and 99.9th percentiles of scheduling latency under contention, individually and in combination?
 
-## 3.3 Research Questions
+RQ2. Can Bayesian optimisation identify a near-optimal configuration within a small measurement budget, and does it select better configurations than random search when every evaluation is a noisy tail-latency measurement?
 
-The aim and objectives decompose into four research questions, each mapped to a strand of the methodology in Chapter 4.
+RQ3. Does the advantage of Bayesian optimisation, and the ranking of parameter importance, hold when the coefficients of the latency model are perturbed?
 
-RQ1. How do individual kernel-tuning interventions (IRQ affinity, CPU isolation, NUMA-aware allocation, nohz_full tickless operation, and PREEMPT_RT) contribute to reduction of the 95th, 99th, and 99.9th percentiles of tick-to-trade latency, both independently and in combination?
+The original proposal also asked whether cloud PTP timestamping changes the conclusions drawn from NTP-based measurement, whether an analytical scheduling-latency bound predicts the observed 99.9th percentile, and how large the residual gap to kernel bypass is. Those questions require the cloud platform and a real-time kernel; they are retained as the agenda of the cloud study and are not answered here.
 
-RQ2. To what extent does cloud-provided PTP hardware timestamping reduce measurement uncertainty in tail-latency estimates, and does this change the qualitative conclusions that would have been drawn from NTP-based measurement?
+## 3.3 Hypotheses
 
-RQ3. Can an analytical scheduling-latency bound, parameterised by empirically measured interrupt rates and interference distributions, predict the observed 99.9th-percentile latency within a stated confidence interval?
+The proposal fixed a quantitative threshold for success before any data were collected: the best tuned configuration should reduce the 99.9th-percentile latency by at least a factor of four relative to the untuned baseline. That threshold is kept unchanged.
 
-RQ4. What is the residual tail-latency gap between the best kernel-tuned configuration and published DPDK baselines, and is this gap narrow enough to justify kernel-resident deployment in cloud HFT-adjacent workflows?
+H1. The best configuration found reduces the 99.9th-percentile scheduling latency by at least a factor of four relative to the untuned default, as measured by independent re-evaluation. The threshold was set for tick-to-trade latency in the cloud and is carried over to the scheduling latency measured here, so it is a minimum standard rather than a demanding test.
 
-## 3.4 Hypothesis
+H2. For equal budgets on the real host, the configurations selected by Bayesian optimisation are at least as good as those selected by random search when re-measured. A re-measured disadvantage, defined as a Vargha-Delaney A12 below 0.5 for the picks of Bayesian optimisation against those of random search, refutes H2. The proposal stated H2 qualitatively; this criterion was made explicit after data collection. It is descriptive: if the two methods were equivalent it would be met by chance about half the time, so a result that does not refute H2 is weak evidence in its favour. The simulation study is used to explain the outcome of this test, not to confirm it.
 
-Framed for falsifiability, the hypothesis is that the fully tuned configuration (S5) reduces the 99.9th-percentile tick-to-trade latency by at least a factor of four relative to the stock baseline (S0), and falls within 20 percent of the analytical bound across the tested load regime. A result outside either threshold refutes the hypothesis and is reported as such, since a refuted but well-characterised bound is itself a contribution to the understanding of deterministic latency in virtualised systems.
+Either outcome is reported as found. A refuted hypothesis on commodity hardware is still informative for the cloud study, because it tells the experimenter where measurement effort is, and is not, worth spending.

@@ -1,0 +1,19 @@
+{
+  "out": "data/real_pilot/run1",
+  "duration": 30,
+  "seeds": 5,
+  "evals": 30,
+  "baseline_reps": 10,
+  "reeval_reps": 5,
+  "factorial_reps": 3,
+  "ncpu": 12,
+  "interval_us": 200,
+  "hist_max_us": 20000,
+  "default": {
+    "policy": 0,
+    "rt_priority": 1,
+    "cpu": -1,
+    "isolate": 0,
+    "sibling_free": 0
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "note": "Synthetic latency model; ground truth computed analytically from model_factors.",
+  "quantile": 0.999,
+  "optimum_cfg": {
+    "isolated_cores": 4,
+    "irq_affinity": 1,
+    "nohz_full": 1,
+    "preempt_rt": 0,
+    "governor_performance": 1,
+    "numa_pinned": 1,
+    "rt_priority": 1,
+    "irq_coalesce_us": 0
+  },
+  "optimum_p999_us": 10.29096879303496,
+  "optimum_ties": [
+    {
+      "isolated_cores": 4,
+      "irq_affinity": 1,
+      "nohz_full": 1,
+      "preempt_rt": 0,
+      "governor_performance": 1,
+      "numa_pinned": 1,
+      "rt_priority": 1,
+      "irq_coalesce_us": 0
+    },
+    {
+      "isolated_cores": 4,
+      "irq_affinity": 1,
+      "nohz_full": 1,
+      "preempt_rt": 0,
+      "governor_performance": 1,
+      "numa_pinned": 1,
+      "rt_priority": 94,
+      "irq_coalesce_us": 0
+    },
+    {
+      "isolated_cores": 5,
+      "irq_affinity": 1,
+      "nohz_full": 1,
+      "preempt_rt": 0,
+      "governor_performance": 1,
+      "numa_pinned": 1,
+      "rt_priority": 1,
+      "irq_coalesce_us": 0
+    },
+    {
+      "isolated_cores": 5,
+      "irq_affinity": 1,
+      "nohz_full": 1,
+      "preempt_rt": 0,
+      "governor_performance": 1,
+      "numa_pinned": 1,
+      "rt_priority": 94,
+      "irq_coalesce_us": 0
+    },
+    {
+      "isolated_cores": 6,
+      "irq_affinity": 1,
+      "nohz_full": 1,
+      "preempt_rt": 0,
+      "governor_performance": 1,
+      "numa_pinned": 1,
+      "rt_priority": 1,
+      "irq_coalesce_us": 0
+    },
+    {
+      "isolated_cores": 6,
+      "irq_affinity": 1,
+      "nohz_full": 1,
+      "preempt_rt": 0,
+      "governor_performance": 1,
+      "numa_pinned": 1,
+      "rt_priority": 94,
+      "irq_coalesce_us": 0
+    }
+  ],
+  "n_optimum_ties": 6,
+  "default_p999_us": 766.6673934436056,
+  "verification": {
+    "full_space_size": 2879712,
+    "distinct_factor_triples": 189072,
+    "full_min_p999_us": 10.29096879303496,
+    "n_within_0p1pct_rechecked": 1,
+    "reduced_optimum_is_global": true,
+    "seconds": 216.9
+  },
+  "checks": [
+    {
+      "name": "default",
+      "cfg": {
+        "isolated_cores": 0,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 0,
+        "numa_pinned": 0,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "analytic": 766.6673934436056,
+      "quad": 766.667393444072,
+      "mc_cdf_at_analytic": 0.99900557,
+      "z_score": 1.7622700121170611,
+      "mc_p999": 770.8132095919582,
+      "mc_rel_diff": 0.005407581154235563
+    },
+    {
+      "name": "optimum",
+      "cfg": {
+        "isolated_cores": 4,
+        "irq_affinity": 1,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 1,
+        "irq_coalesce_us": 0
+      },
+      "analytic": 10.29096879303496,
+      "quad": 10.290968793035013,
+      "mc_cdf_at_analytic": 0.99899997,
+      "z_score": -0.00949157997009199,
+      "mc_p999": 10.281095912710397,
+      "mc_rel_diff": -0.0009593732643757846
+    },
+    {
+      "name": "tuned_example",
+      "cfg": {
+        "isolated_cores": 4,
+        "irq_affinity": 1,
+        "nohz_full": 1,
+        "preempt_rt": 1,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 50,
+        "irq_coalesce_us": 20
+      },
+      "analytic": 12.847511065204884,
+      "quad": 12.84751106520493,
+      "mc_cdf_at_analytic": 0.99899835,
+      "z_score": -0.5220368976525414,
+      "mc_p999": 12.845041466327284,
+      "mc_rel_diff": -0.00019222391520545834
+    },
+    {
+      "name": "irq_no_iso",
+      "cfg": {
+        "isolated_cores": 0,
+        "irq_affinity": 1,
+        "nohz_full": 0,
+        "preempt_rt": 0,
+        "governor_performance": 0,
+        "numa_pinned": 0,
+        "rt_priority": 60,
+        "irq_coalesce_us": 0
+      },
+      "analytic": 753.6325406707681,
+      "quad": 753.6325406712452,
+      "mc_cdf_at_analytic": 0.99900234,
+      "z_score": 0.7403432366836499,
+      "mc_p999": 751.8809781500395,
+      "mc_rel_diff": -0.0023241598872172364
+    },
+    {
+      "name": "random_0",
+      "cfg": {
+        "isolated_cores": 0,
+        "irq_affinity": 1,
+        "nohz_full": 0,
+        "preempt_rt": 1,
+        "governor_performance": 1,
+        "numa_pinned": 1,
+        "rt_priority": 44,
+        "irq_coalesce_us": 96
+      },
+      "analytic": 201.9119088649074,
+      "quad": 201.9119088649511,
+      "mc_cdf_at_analytic": 0.99899805,
+      "z_score": -0.6169526972480835,
+      "mc_p999": 202.63448500254938,
+      "mc_rel_diff": 0.00357867023150904
+    },
+    {
+      "name": "random_1",
+      "cfg": {
+        "isolated_cores": 1,
+        "irq_affinity": 0,
+        "nohz_full": 0,
+        "preempt_rt": 1,
+        "governor_performance": 1,
+        "numa_pinned": 0,
+        "rt_priority": 65,
+        "irq_coalesce_us": 23
+      },
+      "analytic": 199.32989460031473,
+      "quad": 199.3298946003281,
+      "mc_cdf_at_analytic": 0.99899549,
+      "z_score": -1.4269008536187389,
+      "mc_p999": 199.2596696929474,
+      "mc_rel_diff": -0.000352304944063464
+    },
+    {
+      "name": "random_2",
+      "cfg": {
+        "isolated_cores": 7,
+        "irq_affinity": 0,
+        "nohz_full": 1,
+        "preempt_rt": 0,
+        "governor_performance": 0,
+        "numa_pinned": 0,
+        "rt_priority": 80,
+        "irq_coalesce_us": 27
+      },
+      "analytic": 14.293307639574138,
+      "quad": 14.293307639574245,
+      "mc_cdf_at_analytic": 0.99900603,
+      "z_score": 1.9078075714594247,
+      "mc_p999": 14.284640767669918,
+      "mc_rel_diff": -0.0006063587325457753
+    }
+  ],
+  "seconds": 333.4
+}
