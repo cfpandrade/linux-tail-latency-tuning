@@ -1,5 +1,8 @@
 .venv/
-build/
+build/*
+!build/dissertation.pdf
 bin/
 .trash/
 __pycache__/
+tmp*/
+scripts/_adhoc_*.py
