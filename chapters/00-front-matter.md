@@ -4,13 +4,13 @@ I declare that this dissertation is my own work and that it has not been submitt
 
 \vspace{3em}
 
-Signed: \rule{6cm}{0.4pt}
+Signed: \raisebox{-0.2em}{\underline{\makebox[6cm][l]{\hspace{0.5em}{\fontspec{TeX Gyre Chorus}\LARGE Carlos Perez Andrade}}}}
 
 \vspace{1em}
 
 Carlos Perez Andrade
 
-Date: \rule{4cm}{0.4pt}
+Date: 18 October 2026
 
 # Abstract
 
