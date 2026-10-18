@@ -65,7 +65,7 @@ The present study changes one element of this plan. Instead of measuring only th
 | 80 | 0.0% | 100% | 63% | 6.4% | 37% | 1.00 | < 0.001 |
 | 150 | 0.0% | 100% | 77% | 4.9% | 53% | 0.98 | < 0.001 |
 
-: Table B.4: Budget study on the synthetic model, 30 seeds per cell. "Within 5%" is the fraction of seeds whose pick had a true 99.9th percentile no more than five per cent above the optimum. A12 is the probability that a pick of Bayesian optimisation has lower regret than a pick of random search; p is the one-sided Mann-Whitney test.
+: Table B.4: Budget study on the synthetic model, 30 seeds per cell. "Within 5%" is the fraction of seeds whose pick had a true 99.9th percentile no more than 5 per cent above the optimum. A12 is the probability that a pick of Bayesian optimisation has lower regret than a pick of random search; p is the one-sided Mann-Whitney test.
 
 # Appendix C: Repository Contents
 
