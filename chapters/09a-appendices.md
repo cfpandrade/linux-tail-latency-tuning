@@ -116,7 +116,7 @@ The project was planned twice. The original proposal, written for the Research M
 | Results and discussion drafted | 28 September | Repository initialised; chapters scaffolded; local harness and first pilot | 13 October |
 | Draft implementation and results submitted | 5 October | Simulation budget study (46 minutes) and sensitivity sweep started | 14 October |
 | Draft report submitted | 12 October | Real study, 401 measurements in 3.6 hours; C-state follow-up; sweep analysed | 15 October |
-| Final report submitted | 19 October | Body cut to the 7,000-word limit; repository made public; numerical, figure, citation, and style audits | 18 October |
+| Final report submitted | 19 October | Body condensed to the word limit; repository made public; numerical, figure, citation, and style audits | 18 October |
 
 : Table D.1: Planned milestones against the actual record. Dates before 13 October come from correspondence and the module calendar; dates from 13 October onwards come from git commits and experiment log timestamps.
 
