@@ -27,7 +27,7 @@ Isolating the core by affinity, on its own, made the tail worse. Under SCHED_OTH
 
 Freeing the SMT sibling helped the extreme tail and was the only form of isolation that did: relative to isolating the core alone it multiplied the p99.9 by 0.55, and the best factorial configuration, SCHED_FIFO on CPU 5 with core and sibling free, reached a pooled p99.9 of 50 microseconds. The p99 behaved differently. Under SCHED_OTHER freeing the sibling lowered it from about 480 to about 210 microseconds, but under SCHED_FIFO it raised it from 18 to about 34, which Section 6.4 links to idle states.
 
-The choice of CPU made no detectable difference: the measured CPU handled 5,200 to 6,800 interrupts per second in every configuration, almost all local-timer interrupts, and device interrupts were negligible on this idle-network workstation. Pinning itself, assessed observationally from Phases B and C, made no significant difference either (median p99.9 of 23 microseconds unpinned against 33 pinned on a shared core among SCHED_FIFO measurements; two-sided Mann-Whitney U, p = 0.36), although as the searches chose these measurements the comparison is indicative only.
+The choice of CPU made no detectable difference: the measured CPU handled 5,200 to 6,800 interrupts per second in every configuration, almost all local-timer interrupts, and device interrupts were negligible on this idle-network workstation. Pinning itself, assessed observationally from Phases B and C, made no significant difference either (median p99.9 of 23 microseconds unpinned against 33 pinned on a shared core among SCHED_FIFO measurements; two-sided Mann-Whitney U, p = 0.36), although the searches chose these measurements, so the comparison is indicative only.
 
 ## 6.3 Search on the Real Host (RQ2)
 

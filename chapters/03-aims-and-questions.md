@@ -18,6 +18,6 @@ The proposal's questions on cloud PTP timestamping, the analytical scheduling-la
 
 The proposal fixed a quantitative threshold for success before any data were collected, and it is kept unchanged.
 
-H1. The best configuration found reduces the 99.9th-percentile scheduling latency by at least a factor of four relative to the untuned default, as measured by independent re-evaluation. The threshold was set for tick-to-trade latency in the cloud and is carried over unchanged, so it is a minimum standard rather than a demanding test.
+H1. The best configuration found reduces the 99.9th-percentile scheduling latency by at least a factor of four relative to the untuned default, as measured by independent re-evaluation. The threshold was set for tick-to-trade latency in the cloud, so it is a minimum standard rather than a demanding test.
 
 H2. For equal budgets on the real host, the configurations selected by Bayesian optimisation are at least as good as those selected by random search when re-measured. A re-measured disadvantage, a Vargha-Delaney A12 below 0.5 for the picks of Bayesian optimisation against those of random search, refutes H2. The proposal stated H2 qualitatively; this criterion was made explicit after data collection. It is descriptive: if the two methods were equivalent it would be met by chance about half the time, so a result that does not refute H2 is weak evidence in its favour.
