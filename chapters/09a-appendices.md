@@ -41,6 +41,32 @@ The present study changes one element of this plan. Instead of measuring only th
 
 : Table B.2: C-state follow-up on CPU 5 (microseconds), five runs per condition. Percentiles and maxima are medians over runs. The last column is the mean rate at which the measured CPU entered an idle state of C1E or deeper.
 
+| Pick | Configuration | p50 | p99 | p99.9 | p99.9 pooled [95% CI] | Max | Cliff's delta |
+|----------------|--------------------|-----|-----|-------|------------------------|----------|--------|
+| Default | OTHER, unpinned | 56 | 75 | 2,385 | 2,541 [2,159, 2,780] | 18,913 | 0 |
+| BO, seed 0 | FIFO 1, CPU 10 | 5 | 10 | 19 | 54 [14, 87] | 453 | -0.998 |
+| BO, seed 1 | FIFO 52, CPU 10 | 5 | 10 | 17 | 17 [14, 23] | > 20,000 | -0.999 |
+| BO, seed 2 | FIFO 1, unpinned | 5 | 10 | 27 | 50 [17, 80] | 2,322 | -0.998 |
+| BO, seed 3 | FIFO 99, unpinned | 5 | 10 | 31 | 58 [26, 79] | 2,392 | -0.998 |
+| BO, seed 4 | FIFO 1, unpinned | 5 | 9 | 14 | 14 [12, 17] | 454 | -1.000 |
+| Random, seed 0 | FIFO 80, unpinned | 5 | 10 | 67 | 59 [15, 87] | 6,505 | -0.998 |
+| Random, seed 1 | FIFO 36, unpinned | 5 | 10 | 17 | 21 [14, 60] | 494 | -0.999 |
+| Random, seed 2 | FIFO 64, CPU 6 | 5 | 10 | 25 | 30 [14, 69] | 535 | -0.999 |
+| Random, seed 3 | FIFO 76, CPU 1 | 5 | 10 | 61 | 63 [22, 82] | 2,521 | -0.998 |
+| Random, seed 4 | FIFO 20, CPU 2 | 5 | 11 | 69 | 69 [44, 81] | 8,414 | -0.997 |
+
+: Table B.3: Re-evaluation (microseconds) of the untuned default and of every pick of Phase B, five runs each in shuffled order. Percentiles are medians over runs. Cliff's delta compares all samples of the pick with all samples of the default; minus one means every sample of the pick was faster.
+
+| Budget | BO median regret | BO within 5% | BO exact optimum | Random median regret | Random within 5% | A12 | p |
+|--------|-----------|---------|----------|------------|----------|------|---------|
+| 10 | 17.5% | 3% | 0% | 24.1% | 3% | 0.61 | 0.065 |
+| 20 | 0.8% | 83% | 0% | 14.6% | 3% | 0.96 | < 0.001 |
+| 40 | 0.3% | 100% | 43% | 10.7% | 20% | 0.99 | < 0.001 |
+| 80 | 0.0% | 100% | 63% | 6.4% | 37% | 1.00 | < 0.001 |
+| 150 | 0.0% | 100% | 77% | 4.9% | 53% | 0.98 | < 0.001 |
+
+: Table B.4: Budget study on the synthetic model, 30 seeds per cell. "Within 5%" is the fraction of seeds whose pick had a true 99.9th percentile no more than five per cent above the optimum. A12 is the probability that a pick of Bayesian optimisation has lower regret than a pick of random search; p is the one-sided Mann-Whitney test.
+
 # Appendix C: Repository Contents
 
-The project repository contains the measurement harness and search driver (scripts/experiments/real_pilot.py), the follow-up experiment (cstate_followup.py) and its analysis (cstate_analyse.py), the simulation model and studies (bo_sim.py, bo_budget.py, bo_sensitivity.py), the analysis script that produces every table and figure of Chapter 6 (real_pilot_analyse.py), the unit and smoke tests (test_real_pilot.py, test_bo_sim.py, tests/test_smoke.py), the raw logs of every real measurement (data/real_pilot/run1/evals.jsonl and data/real_pilot/cstate1/evals.jsonl), and the simulation checkpoints (data/bo_sim_runs/). Re-running the real study requires the rt-tests and stress-ng packages and a raised RLIMIT_RTPRIO and reproduces the design exactly, although measured values will differ with the hardware. Re-running the simulation reproduces its results exactly, because every random draw is seeded.
+The project repository is public at \url{https://github.com/cfpandrade/linux-tail-latency-tuning}. It contains the measurement harness and search driver (scripts/experiments/real_pilot.py), the follow-up experiment (cstate_followup.py) and its analysis (cstate_analyse.py), the simulation model and studies (bo_sim.py, bo_budget.py, bo_sensitivity.py), the analysis script that produces every table and figure of Chapter 6 (real_pilot_analyse.py), the unit and smoke tests (test_real_pilot.py, test_bo_sim.py, tests/test_smoke.py), the raw logs of every real measurement (data/real_pilot/run1/evals.jsonl and data/real_pilot/cstate1/evals.jsonl), and the simulation checkpoints (data/bo_sim_runs/). Re-running the real study requires the rt-tests and stress-ng packages and a raised RLIMIT_RTPRIO and reproduces the design exactly, although measured values will differ with the hardware. Re-running the simulation reproduces its results exactly, because every random draw is seeded.
