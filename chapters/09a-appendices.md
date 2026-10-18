@@ -67,6 +67,59 @@ The present study changes one element of this plan. Instead of measuring only th
 
 : Table B.4: Budget study on the synthetic model, 30 seeds per cell. "Within 5%" is the fraction of seeds whose pick had a true 99.9th percentile no more than 5 per cent above the optimum. A12 is the probability that a pick of Bayesian optimisation has lower regret than a pick of random search; p is the one-sided Mann-Whitney test.
 
+In the synthetic model of Section 4.7, a request's latency is the product of a body median and a log-normal factor with sigma body_sigma; with probability p (capped at 0.5) the request is also hit by a stall of scale times (1 + X), where X is Pareto-distributed with shape alpha. The eight tuning parameters act on the triple (body, p, scale) through the coefficients in Table B.5, which reproduces COEF_DEFAULTS in bo_sim.py exactly. The sensitivity study (Section 4.7) perturbs the 22 non-structural coefficients: magnitudes are multiplied by the factor f, and multiplicative effects are raised to the power f so that each stays on its side of 1.
+
+| Coefficient | Value | Role in the model | Perturbation |
+|-------------------|-------|-----------------------------------------------------------------------------|-----------|
+| base_median_us | 5.4 | Body median of the untuned default (microseconds) | magnitude |
+| body_sigma | 0.25 | Log-normal sigma of the body | magnitude |
+| base_event_p | 0.004 | Stall probability p of the untuned default | magnitude |
+| base_stall_us | 320 | Stall scale of the untuned default (microseconds) | magnitude |
+| alpha | 1.6 | Pareto shape of a stall | magnitude |
+| iso_decay | 0.55 | p multiplied by exp(-iso_decay x min(isolated_cores, iso_cap)) | magnitude |
+| iso_cap | 4 | Isolated cores beyond which isolation stops helping | magnitude |
+| irq_noiso_p | 1.6 | p factor of IRQ affinity without isolation | effect |
+| irq_iso_p | 0.7 | p factor of IRQ affinity with isolation | effect |
+| irq_over_p | 1.8 | p factor of IRQ affinity with irq_over_min_iso or more isolated cores | effect |
+| irq_over_min_iso | 7 | Threshold of isolated cores for irq_over_p | fixed |
+| nohz_p | 0.6 | p factor of nohz_full with at least one isolated core | effect |
+| rt_scale | 0.45 | Stall-scale factor of PREEMPT_RT | effect |
+| rt_body | 1.08 | Body factor of PREEMPT_RT | effect |
+| gov_p | 0.8 | p factor of the performance governor | effect |
+| gov_body | 0.97 | Body factor of the performance governor | effect |
+| numa_p | 0.7 | p factor of NUMA pinning | effect |
+| numa_body | 0.9 | Body factor of NUMA pinning | effect |
+| rtprio_scale_gain | 0.3 | Without isolation, scale multiplied by 1 - gain x ln(rt_priority) / ln(99) | magnitude |
+| rt_high_p | 1.3 | p factor when rt_priority is rt_high_min or higher | effect |
+| rt_high_min | 95 | Priority threshold for rt_high_p | fixed |
+| coalesce_gain | 0.3 | p multiplied by 1 - gain x min(irq_coalesce_us, coalesce_sat_us) / coalesce_sat_us | magnitude |
+| coalesce_sat_us | 50 | Coalescing interval at which its benefit saturates (microseconds) | magnitude |
+| coalesce_body | 0.04 | Body increase per microsecond of coalescing (microseconds) | magnitude |
+
+: Table B.5: Coefficients of the synthetic latency model. "Magnitude" and "effect" name the two perturbation rules of the sensitivity study; "fixed" marks the two structural thresholds that are not perturbed. The untuned default has p99.9 = 766.7 microseconds and the optimum of the 2,879,712-point space has p99.9 = 10.3 microseconds.
+
 # Appendix C: Repository Contents
 
 The project repository is public at \url{https://github.com/cfpandrade/linux-tail-latency-tuning}. It contains the measurement harness and search driver (scripts/experiments/real_pilot.py), the follow-up experiment (cstate_followup.py) and its analysis (cstate_analyse.py), the simulation model and studies (bo_sim.py, bo_budget.py, bo_sensitivity.py), the analysis script that produces every table and figure of Chapter 6 (real_pilot_analyse.py), the unit tests (test_real_pilot.py, which also holds the measurement smoke test, and test_bo_sim.py; tests/test_smoke.py checks only the repository layout and imports), the raw logs of every real measurement (data/real_pilot/run1/evals.jsonl and data/real_pilot/cstate1/evals.jsonl), and the simulation checkpoints (data/bo_sim_runs/). Re-running the real study requires the rt-tests and stress-ng packages and a raised RLIMIT_RTPRIO and reproduces the design exactly, although measured values will differ with the hardware. Re-running the simulation reproduces its results exactly, because every random draw is seeded.
+
+# Appendix D: Project Management and Deviations
+
+The project was planned twice. The original proposal, written for the Research Methods module, scheduled fourteen weeks of cloud experiments on a cumulative gradient of six kernel configurations. In August, after it became clear that a cumulative gradient cannot attribute a change in the tail to any one mechanism, the plan was rewritten around Bayesian optimisation and compressed to eight weeks, working back from the final submission on 19 October, with all cloud measurements to finish by 21 September. Table D.1 sets the planned milestones against what happened, using the dates of the module calendar, the git history of the repository, and the timestamps in the experiment logs.
+
+| Planned | Date | Actual | Date |
+|------------------------------------------------|-----------|--------------------------------------------------------------------|--------------|
+| Original proposal (cloud gradient, fourteen weeks) | July | Proposal reviewed; gradient design found unable to attribute effects | early August |
+| Supervisor allocation and topic approval | week 1 | Supervisor contacted and topic approved | 20 August |
+| Revised proposal and Ethical Considerations Form | 24 to 31 August | Proposal finalised and ethics form submitted (all answers No) | 31 August |
+| Harness built, cloud instances provisioned, PTP verified | 11 to 24 August | Measurement design corrected (ENA timestamps, KS test, RQ3) | early September |
+| Cloud search and confirmation runs complete | 21 September | Decision to measure on a local workstation and to add a simulation strand | 12 October |
+| Results and discussion drafted | 28 September | Repository initialised; chapters scaffolded; local harness and first pilot | 13 October |
+| Draft implementation and results submitted | 5 October | Simulation budget study (46 minutes) and sensitivity sweep started | 14 October |
+| Draft report submitted | 12 October | Real study, 401 measurements in 3.6 hours; C-state follow-up; sweep analysed | 15 October |
+| Final report submitted | 19 October | Body cut to the 7,000-word limit; repository made public; numerical, figure, citation, and style audits | 18 October |
+
+: Table D.1: Planned milestones against the actual record. Dates before 13 October come from correspondence and the module calendar; dates from 13 October onwards come from git commits and experiment log timestamps.
+
+Three deviations shaped the dissertation. First, the cloud study was not executed: the bare-metal instances, real-time kernel, and instance-hours it needed were not available within the project, so the empirical strand moved to a commodity workstation restricted to user-space mechanisms (Section 4.2), and the cloud design was retained as Appendix A with the revisions the local results suggest. Second, because a single host cannot validate a search procedure against a known answer, a simulation strand with an exactly known optimum was added (Section 4.7); it was run before the real study so that the simulation budget study could set the real budget. Third, nearly all measurement and writing fell into the final week: the two simulation studies ran on 14 and 15 October, the real study on the morning of 15 October, and the report was restructured on 18 October. The compression left no time for a second real-measurement campaign, which is why the C-state follow-up (Section 6.4) has five runs per condition and why the factorial phase has three. The repository records every step, so the sequence can be audited from the commit history.
+
+<!-- Reflection placeholder (Carlos): if the module guide requires a personal reflection, write it here as "Appendix E: Personal Reflection" in your own voice. Suggested prompts: what you would do differently (start measurement before the writing, keep the plan to one strand), what surprised you (isolation hurting under SCHED_OTHER), and how the project changed your view of your professional practice. Delete this comment before submission if you do not add the section. -->
