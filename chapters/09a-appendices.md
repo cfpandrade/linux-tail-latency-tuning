@@ -98,9 +98,36 @@ In the synthetic model of Section 4.7, a request's latency is the product of a b
 
 : Table B.5: Coefficients of the synthetic latency model. "Magnitude" and "effect" name the two perturbation rules of the sensitivity study; "fixed" marks the two structural thresholds that are not perturbed. The untuned default has p99.9 = 766.7 microseconds and the optimum of the 2,879,712-point space has p99.9 = 10.3 microseconds.
 
+| Coefficient | f = 0.5 | f = 0.75 | f = 1.5 | f = 2 |
+|-------------------|-------------|-------------|---------|-------------|
+| base_median_us | 5.1 / 0.97 | 7.7 / 0.98 | not run | 20.6 / 0.95 |
+| body_sigma | 7.0 / 0.97 | 8.5 / 0.97 | not run | 22.5 / 0.98 |
+| base_event_p | 10.2 / 0.97 | 10.3 / 0.98 | not run | 10.4 / 0.93 |
+| base_stall_us | 10.3 / 0.98 | 10.3 / 0.98 | not run | 10.3 / 0.98 |
+| alpha | 10.3 / 0.94 | 10.3 / 0.98 | not run | 10.3 / 0.98 |
+| iso_decay | 10.5 / 0.87 | 10.4 / 0.94 | not run | 10.2 / 0.95 |
+| iso_cap | 10.5 / 0.90 | 10.4 / 0.94 | not run | 10.2 / 0.99 |
+| irq_noiso_p | 10.3 / 0.98 | 10.3 / 0.97 | not run | 10.3 / 0.98 |
+| irq_iso_p | 10.3 / 0.97 | not run | not run | 10.3 / 0.97 |
+| irq_over_p | 10.3 / 0.98 | not run | not run | 10.3 / 0.97 |
+| nohz_p | 10.3 / 0.94 | not run | not run | 10.3 / 0.97 |
+| rt_scale | 10.3 / 0.93 | not run | not run | 10.3 / 0.93 |
+| rt_body | 10.3 / 0.98 | not run | not run | 10.3 / 0.97 |
+| gov_p | 10.3 / 0.98 | not run | not run | 10.3 / 0.97 |
+| gov_body | 10.4 / 0.95 | not run | not run | 10.0 / 0.98 |
+| numa_p | 10.3 / 0.98 | not run | not run | 10.3 / 0.97 |
+| numa_body | 10.8 / 0.98 | not run | not run | 9.3 / 0.95 |
+| rtprio_scale_gain | 10.3 / 0.96 | 10.3 / 0.97 | not run | 10.3 / 0.94 |
+| rt_high_p | 10.3 / 0.98 | not run | not run | 10.3 / 0.96 |
+| coalesce_gain | 10.3 / 0.97 | 10.3 / 0.98 | not run | 10.3 / 0.97 |
+| coalesce_sat_us | 10.3 / 0.98 | 10.3 / 0.97 | not run | 10.3 / 0.95 |
+| coalesce_body | 10.3 / 0.98 | 10.3 / 0.98 | not run | 10.3 / 0.98 |
+
+: Table B.6: Coverage of the one-at-a-time sensitivity sweep. Each cell gives, for the model in which one coefficient is perturbed by the factor f, the exact optimum p99.9 in microseconds and the lowest Vargha-Delaney A12 of Bayesian optimisation against random search over the budgets of 20 or more evaluations. The sweep ran the levels in the order 0.5, 2, 0.75, 1.5 and was stopped after 56 models, so the two extreme perturbations are complete for every coefficient and the 32 missing models are the milder ones. The lowest A12 in the table is 0.87 (iso_decay at f = 0.5, 0.865 before rounding); the base model has an optimum of 10.3 microseconds.
+
 # Appendix C: Repository Contents
 
-The project repository is public at \url{https://github.com/cfpandrade/linux-tail-latency-tuning}. It contains the measurement harness and search driver (scripts/experiments/real_pilot.py), the follow-up experiment (cstate_followup.py) and its analysis (cstate_analyse.py), the simulation model and studies (bo_sim.py, bo_budget.py, bo_sensitivity.py), the analysis script that produces every table and figure of Chapter 6 (real_pilot_analyse.py), the unit tests (test_real_pilot.py, which also holds the measurement smoke test, and test_bo_sim.py; tests/test_smoke.py checks only the repository layout and imports), the raw logs of every real measurement (data/real_pilot/run1/evals.jsonl and data/real_pilot/cstate1/evals.jsonl), and the simulation checkpoints (data/bo_sim_runs/). Re-running the real study requires the rt-tests and stress-ng packages and a raised RLIMIT_RTPRIO and reproduces the design exactly, although measured values will differ with the hardware. Re-running the simulation reproduces its results exactly, because every random draw is seeded.
+The project repository is public at \url{https://github.com/cfpandrade/linux-tail-latency-tuning}. It contains the measurement harness and search driver (scripts/experiments/real_pilot.py), the follow-up experiment (cstate_followup.py) and its analysis (cstate_analyse.py), the simulation model and studies (bo_sim.py, bo_budget.py, bo_sensitivity.py), the power analysis of the search comparison (real_power.py), the analysis script that produces every table and figure of Chapter 6 (real_pilot_analyse.py), the unit tests (test_real_pilot.py, which also holds the measurement smoke test, and test_bo_sim.py; tests/test_smoke.py checks only the repository layout and imports), the raw logs of every real measurement (data/real_pilot/run1/evals.jsonl and data/real_pilot/cstate1/evals.jsonl), and the simulation checkpoints (data/bo_sim_runs/). Re-running the real study requires the rt-tests and stress-ng packages and a raised RLIMIT_RTPRIO and reproduces the design exactly, although measured values will differ with the hardware. Re-running the simulation reproduces its results exactly, because every random draw is seeded.
 
 # Appendix D: Project Management and Deviations
 
@@ -120,4 +147,4 @@ The project was planned twice. The original proposal, written for the Research M
 
 : Table D.1: Planned milestones against the actual record. Dates before 13 October come from correspondence and the module calendar; dates from 13 October onwards come from git commits and experiment log timestamps.
 
-Three deviations shaped the dissertation. First, the cloud study was not executed: the bare-metal instances, real-time kernel, and instance-hours it needed were not available within the project, so the empirical strand moved to a commodity workstation restricted to user-space mechanisms (Section 4.2), and the cloud design was retained as Appendix A with the revisions the local results suggest. Second, because a single host cannot validate a search procedure against a known answer, a simulation strand with an exactly known optimum was added (Section 4.7); it was run before the real study so that the simulation budget study could set the real budget. Third, nearly all measurement and writing fell into the final week: the two simulation studies ran on 14 and 15 October, the real study on the morning of 15 October, and the report was restructured on 18 October. The compression left no time for a second real-measurement campaign, which is why the C-state follow-up (Section 6.4) has five runs per condition and why the factorial phase has three. The repository records every step, so the sequence can be audited from the commit history.
+Three deviations shaped the dissertation. First, the cloud study was not executed: the bare-metal instances, real-time kernel, and instance-hours it needed were not available within the project, so the empirical strand moved to a commodity workstation restricted to user-space mechanisms (Section 4.2), and the cloud design was retained as Appendix A with the revisions the local results suggest. Second, because a single host cannot validate a search procedure against a known answer, a simulation strand with an exactly known optimum was added (Section 4.7); it was run before the real study so that the simulation budget study could set the real budget. Third, nearly all measurement and writing fell into the final week: the two simulation studies ran on 14 and 15 October, the real study on the morning of 15 October, and the report was restructured on 18 October. The compression left no time for a second real-measurement campaign, which is why the C-state follow-up (Section 6.4) has five runs per condition and why the factorial phase has three. It also forced one priority rule when the sensitivity sweep and the real study competed for the same machine: real measurements took precedence, because a measurement not taken before submission cannot be regenerated, whereas the simulation is seeded and checkpointed, so the remaining 32 models resume from the published run directory, and the joint sweep starts, with the same command. The sweep was therefore stopped at 56 of 88 models, with the extreme perturbations complete (Table B.6). The repository records every step, so the sequence can be audited from the commit history.

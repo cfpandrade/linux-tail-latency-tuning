@@ -1,0 +1,21 @@
+{
+  "n_per_method": 5,
+  "bo_median": 19.0,
+  "random_median": 61.0,
+  "diff_of_medians": 42.0,
+  "diff_ci95": [
+    -6.0,
+    52.0
+  ],
+  "mannwhitney_one_sided_p": 0.0866085563223501,
+  "a12_bo_better": 0.78,
+  "pooled_sd_log10": 0.2236871951114376,
+  "observed_ratio_of_geometric_means": 1.995801425567792,
+  "mde_factor_at_n": {
+    "5": 2.448090781263064,
+    "8": 1.968238087631364,
+    "10": 1.818463423682137,
+    "20": 1.5117055131381574
+  },
+  "seeds_per_method_to_detect_observed_ratio": 8
+}
