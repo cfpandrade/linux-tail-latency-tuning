@@ -5,11 +5,11 @@ An empirical study of user-space mechanisms and Bayesian optimisation, with a de
 Research proposal for a PhD in Artificial Intelligence, October 2026.
 Author: Carlos Perez Andrade.
 
-The compiled dissertation is `build/dissertation.pdf`. Repository: https://github.com/cfpandrade/linux-tail-latency-tuning
+The compiled proposal is `build/dissertation.pdf`. Repository: https://github.com/cfpandrade/linux-tail-latency-tuning
 
 ## Contents
 
-- `chapters/` Markdown source of the dissertation, one file per chapter, compiled with pandoc (`make pdf`).
+- `chapters/` Markdown source of the proposal, one file per chapter, compiled with pandoc (`make pdf`).
 - `references.bib` bibliography (Harvard, Cite Them Right style via `templates/`).
 - `scripts/experiments/real_pilot.py` measurement harness and search driver for the real study (cyclictest under stress-ng contention, Bayesian optimisation versus random search, re-evaluation and factorial phases).
 - `scripts/experiments/cstate_followup.py` and `cstate_analyse.py` idle-state follow-up experiment.
@@ -18,7 +18,7 @@ The compiled dissertation is `build/dissertation.pdf`. Repository: https://githu
 - `scripts/experiments/test_*.py`, `tests/` unit and smoke tests.
 - `data/real_pilot/` raw logs of every real measurement (one JSON record per 30-second measurement).
 - `data/bo_sim_runs/` simulation checkpoints and summaries.
-- `figures/` figures used in the dissertation.
+- `figures/` figures used in the proposal.
 
 ## Reproducing
 
@@ -30,4 +30,4 @@ Document: `make pdf` requires pandoc, pandoc-citeproc support, and XeLaTeX.
 
 ## Licence
 
-Text and figures of the dissertation: CC BY 4.0. Code: MIT.
+Text and figures of the proposal: CC BY 4.0. Code: MIT.
