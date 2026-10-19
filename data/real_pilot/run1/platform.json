@@ -1,0 +1,104 @@
+{
+  "captured": "2026-10-19T11:05:38",
+  "hostname": "vader",
+  "kernel": "Linux 6.17.0-6-generic #6-Ubuntu SMP PREEMPT_DYNAMIC Tue Oct  7 13:34:17 UTC 2025",
+  "distribution": "Ubuntu 26.04.1 LTS",
+  "cmdline": "BOOT_IMAGE=/boot/vmlinuz-6.17.0-6-generic root=UUID=449b8dbf-5125-4a57-a9c6-a720612576bd ro quiet splash acpi=force apm=power_off reboot=pci crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M",
+  "cpu_model": "Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz",
+  "logical_cpus": 12,
+  "physical_cores": 6,
+  "mem_total_kB": 32054964,
+  "numa_nodes": [
+    "node0"
+  ],
+  "isolated_cpus": "",
+  "nohz_full_cpus": "(null)",
+  "cpufreq_scaling_driver": "<unavailable: No such file or directory>",
+  "cpuidle_driver": "intel_idle",
+  "cpuidle_states_cpu5": [
+    {
+      "name": "POLL",
+      "exit_latency_us": 0,
+      "disabled": "0"
+    },
+    {
+      "name": "C1",
+      "exit_latency_us": 2,
+      "disabled": "0"
+    },
+    {
+      "name": "C1E",
+      "exit_latency_us": 10,
+      "disabled": "0"
+    },
+    {
+      "name": "C3",
+      "exit_latency_us": 70,
+      "disabled": "0"
+    },
+    {
+      "name": "C6",
+      "exit_latency_us": 85,
+      "disabled": "0"
+    },
+    {
+      "name": "C7s",
+      "exit_latency_us": 124,
+      "disabled": "0"
+    },
+    {
+      "name": "C8",
+      "exit_latency_us": 200,
+      "disabled": "0"
+    },
+    {
+      "name": "C9",
+      "exit_latency_us": 480,
+      "disabled": "0"
+    },
+    {
+      "name": "C10",
+      "exit_latency_us": 890,
+      "disabled": "0"
+    }
+  ],
+  "smt_siblings": {
+    "cpu0": "0,6",
+    "cpu1": "1,7",
+    "cpu2": "2,8",
+    "cpu3": "3,9",
+    "cpu4": "4,10",
+    "cpu5": "5,11",
+    "cpu6": "0,6",
+    "cpu7": "1,7",
+    "cpu8": "2,8",
+    "cpu9": "3,9",
+    "cpu10": "4,10",
+    "cpu11": "5,11"
+  },
+  "irqbalance_running": false,
+  "sched_rt_runtime_us": "950000",
+  "rlimit_rtprio_in_this_shell": [
+    0,
+    0
+  ],
+  "tools": {
+    "cyclictest": "cyclictest V 2.80",
+    "stress-ng": "stress-ng, version 0.20.01 (gcc 15.2.0, x86_64 Linux 6.17.0-6-generic)",
+    "python3": "Python 3.14.4"
+  },
+  "kernel_config": {
+    "CONFIG_PREEMPT_DYNAMIC": true,
+    "CONFIG_PREEMPT_RT": false,
+    "CONFIG_PREEMPT": false,
+    "CONFIG_PREEMPT_VOLUNTARY": true,
+    "CONFIG_NO_HZ_FULL": true,
+    "CONFIG_HZ": 1000
+  },
+  "python_packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "scikit-optimize": "0.10.2"
+  }
+}

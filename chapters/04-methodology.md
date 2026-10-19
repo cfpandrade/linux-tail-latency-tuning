@@ -6,7 +6,7 @@ The study combines two executed strands and one specified but unexecuted strand.
 
 ## 4.2 Experimental Platform
 
-All real measurements were taken on one workstation: an Intel Core i7-8700 (six cores, twelve hardware threads, one NUMA node), 30 GiB of memory, Ubuntu 26.04.1 LTS with the generic 6.17 kernel (PREEMPT_DYNAMIC, 1000 Hz tick, not PREEMPT_RT), no isolcpus, nohz_full, or rcu_nocbs boot parameters, irqbalance not running, and no frequency-scaling driver exposed to user space. No experiment ran as root; the only privilege was a raised RLIMIT_RTPRIO of 99, which lets an unprivileged process request SCHED_FIFO. This deliberately limits the study to mechanisms an application team can apply without changing the kernel or its boot parameters, as in managed environments.
+All real measurements were taken on one workstation: an Intel Core i7-8700 (six cores, twelve hardware threads, one NUMA node), 30 GiB of memory, Ubuntu 26.04.1 LTS with the generic 6.17 kernel (PREEMPT_DYNAMIC, 1000 Hz tick, not PREEMPT_RT), no isolcpus, nohz_full, or rcu_nocbs boot parameters, irqbalance not running, and no frequency-scaling driver exposed to user space (recorded in data/real_pilot/run1/platform.json). No experiment ran as root; the only privilege was a raised RLIMIT_RTPRIO of 99, which lets an unprivileged process request SCHED_FIFO. This deliberately limits the study to mechanisms an application team can apply without changing the kernel or its boot parameters, as in managed environments.
 
 ## 4.3 Workload and Instrumentation
 
