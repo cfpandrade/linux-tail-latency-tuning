@@ -6,7 +6,7 @@ The cloud study keeps the design of the original proposal and extends the harnes
 
 The workload is a three-stage synthetic tick-to-trade pipeline (market-data producer, strategy evaluator, order emitter) under Poisson arrivals at four offered loads, timestamped at NIC ingress, application read, post-decision, and NIC egress, and accumulated in HdrHistogram structures [@tene2014hdrhistogram]. Six scenarios form an interpretable gradient: S0 stock Ubuntu with irqbalance; S1 adds IRQ affinity; S2 adds cpuset isolation; S3 adds NUMA-aware allocation; S4 adds nohz_full on the isolated cores; S5 adds PREEMPT_RT with the strategy thread under SCHED_FIFO. Figure A.2 shows the intended CPU, IRQ, and NUMA layout for S5. The analytical strand instantiates the PREEMPT_RT scheduling-latency bound of @bristot2020demystifying with interrupt rates measured by the osnoise tracer and compares the predicted worst case with the observed distribution, treating the two as different quantities rather than as validators of each other. The interrupt-rate recording already built into the local harness is the first step towards that parameterisation.
 
-![Figure A.2: Schematic of the intended CPU, IRQ, and NUMA layout of the consumer instance under the fully optimised cloud scenario (S5). The receiving thread is labelled "Producer" in the diagram; the order emitter shares the isolated SCHED_FIFO set with the strategy thread, and cores 0 and 1 remain with the operating system. Core counts are illustrative.](figures/cpu_layout.png)
+![Figure A.2: Schematic of the intended CPU, IRQ, and NUMA layout of the consumer instance under the fully optimised cloud scenario (S5). The receiving thread is labelled "Producer" in the diagram and shares cores 2 and 3 with the NIC interrupts; the strategy thread, with the order emitter, runs under SCHED_FIFO on the isolated cores 4 to 7; housekeeping runs on cores 8 and 9 of the other node, and other background work is excluded from the isolated set. Core counts are illustrative.](figures/cpu_layout.png)
 
 The present study changes one element of this plan. Instead of measuring only the fixed gradient S0 to S5, the cloud study should let the search procedure validated here choose among the mechanisms, with the gradient retained as a set of reference points. The budget study of Section 6.5 suggests, on the synthetic model, 20 to 40 evaluations per search. At five minutes per evaluation, ten seeds at each of the four offered loads would need roughly 70 to 130 instance-hours for each search method, or 130 to 270 hours to compare two methods, before re-measurement. The results of Chapter 6 add two requirements: the search space should include idle-state control from the start, and every selected configuration should be re-measured independently.
 
@@ -27,7 +27,7 @@ The present study changes one element of this plan. Instead of measuring only th
 | FIFO 80, CPU 0, isolated, sibling free | 5 | 35 | 61 | 58 [54, 62] | 642 |
 | FIFO 80, CPU 5, isolated, sibling free | 6 | 33 | 49 | 50 [45, 59] | 903 |
 
-: Table B.1: Factorial phase (microseconds). Percentiles are the median over three runs; the pooled p99.9 is computed from the merged histograms with a run-level bootstrap interval, which with three runs approximates the range of the runs. "Max > 20,000" means at least one sample overflowed the histogram.
+: Table B.1: Factorial phase (microseconds). Percentiles are the median over three runs; the pooled p99.9 is computed from the merged histograms with a run-level bootstrap interval, which with three runs approximates the range of the runs. Max is the largest sample over the three runs; "> 20,000" means at least one sample overflowed the histogram.
 
 | Condition | p50 | p99 | p99.9 | p99.9 pooled [95% CI] | Max | Idle entries per second |
 |------------------------------------------------------|-----|-----|-------|------------------------|--------|-------|
@@ -55,7 +55,7 @@ The present study changes one element of this plan. Instead of measuring only th
 | Random, seed 3 | FIFO 76, CPU 1 | 5 | 10 | 61 | 63 [22, 82] | 2,521 | -0.998 |
 | Random, seed 4 | FIFO 20, CPU 2 | 5 | 11 | 69 | 69 [44, 81] | 8,414 | -0.997 |
 
-: Table B.3: Re-evaluation (microseconds) of the untuned default and of every pick of Phase B, five runs each in shuffled order. Percentiles are medians over runs. Cliff's delta compares all samples of the pick with all samples of the default; minus one means every sample of the pick was faster.
+: Table B.3: Re-evaluation (microseconds) of the untuned default and of every pick of Phase B, five runs each in shuffled order. Percentiles are medians over runs. Max is the largest sample over the five runs. Cliff's delta compares all samples of the pick with all samples of the default; minus one means every sample of the pick was faster.
 
 | Budget | BO median regret | BO within 5% | BO exact optimum | Random median regret | Random within 5% | A12 | p |
 |--------|-----------|---------|----------|------------|----------|------|---------|
@@ -141,9 +141,9 @@ The project was planned twice. The original proposal, written for the Research M
 | Harness built, cloud instances provisioned, PTP verified | 11 to 24 August | Measurement design corrected (ENA timestamps, KS test, RQ3) | early September |
 | Cloud search and confirmation runs complete | 21 September | Decision to measure on a local workstation and to add a simulation strand | 12 October |
 | Results and discussion drafted | 28 September | Repository initialised; chapters scaffolded; local harness and first pilot | 13 October |
-| Draft implementation and results submitted | 5 October | Simulation budget study (46 minutes) and sensitivity sweep started | 14 October |
+| Draft implementation and results submitted | 5 October | Simulation budget study (45 minutes) and sensitivity sweep started | 14 October |
 | Draft report submitted | 12 October | Real study, 401 measurements in 3.6 hours; C-state follow-up; sweep analysed | 15 October |
-| Final report submitted | 19 October | Body condensed to the word limit; repository made public; numerical, figure, citation, and style audits | 18 October |
+| Final report submitted | 19 October | Body condensed to the word limit; repository made public; numerical, figure, citation, and style audits | 18 to 19 October |
 
 : Table D.1: Planned milestones against the actual record. Dates before 13 October come from correspondence and the module calendar; dates from 13 October onwards come from git commits and experiment log timestamps.
 

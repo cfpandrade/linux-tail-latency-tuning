@@ -1,6 +1,6 @@
 # 6 Results and Analysis
 
-The real-measurement study ran for 3.6 hours on 15 October 2026 and completed all 401 planned measurements. Every number below comes from the summaries of the analysis script of Section 5.2 or was recomputed from the raw logs by scripts in the repository. Latencies are in microseconds; OTHER denotes SCHED_OTHER and FIFO followed by a number denotes SCHED_FIFO at that priority. Full per-configuration tables are in Appendix B.
+The real-measurement study ran for 3.6 hours on 15 October 2026 and completed all 401 planned measurements. Every number below comes from the summaries of the analysis script of Appendix C or was recomputed from the raw logs by scripts in the repository. Latencies are in microseconds; OTHER denotes SCHED_OTHER and FIFO followed by a number denotes SCHED_FIFO at that priority. Full per-configuration tables are in Appendix B.
 
 ## 6.1 The Untuned Baseline
 
@@ -14,10 +14,10 @@ Figure 6.1 shows every run of the factorial phase, Table B.1 the per-configurati
 
 | Mechanism | Factor on p99.9 | 95 per cent interval |
 |-----------------------------|-----------------|---------------|
-| SCHED_FIFO (priority 80) | 0.031 | 0.027 to 0.036 |
-| Core isolated by affinity | 1.34 | 1.12 to 1.61 |
+| SCHED_FIFO (priority 80) | 0.031 | 0.027 to 0.037 |
+| Core isolated by affinity | 1.34 | 1.12 to 1.62 |
 | Sibling also freed | 0.55 | 0.46 to 0.66 |
-| CPU 5 instead of CPU 0 | 1.09 | 0.94 to 1.26 |
+| CPU 5 instead of CPU 0 | 1.09 | 0.94 to 1.27 |
 
 : Table 6.1: Main effects on the logarithm of the per-run p99.9 (36 runs), as multiplicative factors with 95 per cent intervals; "sibling also freed" is the additional effect on a core that is already isolated.
 
@@ -59,6 +59,6 @@ The sensitivity study was stopped, under the priority rule of Appendix D, after 
 
 ![Figure 6.5: Vargha-Delaney A12 of Bayesian optimisation against random search for every completed model, by budget. Points are the 56 one-at-a-time perturbations, boxes their quartiles, and the diamond the unperturbed base model. Values above 0.5 favour Bayesian optimisation; the dashed line marks no difference and the dotted line a large effect (0.71).](figures/sim_sensitivity_a12.png)
 
-The ranking of parameter importance was also stable (Figure 6.6): the number of isolated cores was the most important parameter by exact total-effect Sobol index in all 57 models, nohz_full second in 89 per cent, and real-time priority last in 91 per cent, and SHAP rankings estimated from the random-search trials alone ranked isolated cores first in all 57 models and real-time priority last in 56, agreeing with the exact ranking of the least important parameter in 51. The synthetic model makes core isolation its dominant parameter whereas the real study found isolation by affinity harmful on its own; Section 7.1 explains why the two are compatible.
+The ranking of parameter importance was also stable (Figure 6.6): the number of isolated cores was the most important parameter by exact total-effect Sobol index in all 57 models, nohz_full second in 89 per cent, and real-time priority last in 91 per cent; SHAP rankings estimated from the random-search trials alone ranked isolated cores first in all 57 models and real-time priority last in 56, agreeing with the exact ranking of the least important parameter in 51. The synthetic model makes core isolation its dominant parameter whereas the real study found isolation by affinity harmful on its own; Section 7.1 explains why the two are compatible.
 
 ![Figure 6.6: Importance rank of each parameter across the completed models. Left: exact total-effect Sobol index. Right: SHAP values of a random forest fitted to the random-search trials.](figures/sim_importance_rank.png)
