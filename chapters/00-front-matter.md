@@ -1,17 +1,3 @@
-# Declaration
-
-I declare that this dissertation is my own work and that it has not been submitted, in whole or in part, for any other degree or qualification at this or any other institution. Where the work of others has been used, it is acknowledged and referenced in the text.
-
-\vspace{3em}
-
-Signed: \raisebox{-0.2em}{\underline{\makebox[6cm][l]{\hspace{0.5em}{\fontspec{TeX Gyre Chorus}\LARGE Carlos Perez Andrade}}}}
-
-\vspace{1em}
-
-Carlos Perez Andrade
-
-Date: 18 October 2026
-
 # Abstract
 
 In high-frequency trading the 99th and 99.9th percentiles of latency, not the mean, govern profitability, and timestamp accuracy is a regulatory obligation. A tuned Linux kernel is a credible alternative to kernel bypass, particularly in the public cloud, but choosing the tuning configuration is itself an expensive search problem: the mechanisms interact, each evaluation is a noisy measurement of a rare event, and in practice the configuration is set by hand.
