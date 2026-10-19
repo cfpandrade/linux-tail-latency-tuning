@@ -10,6 +10,8 @@ Real-time scheduling reduced the 99.9th percentile by a factor of about 32 and s
 
 AWS: Amazon Web Services
 
+BCS: British Computer Society
+
 BO: Bayesian Optimisation
 
 CI: Confidence Interval
@@ -49,5 +51,3 @@ SCHED_OTHER: Default time-sharing scheduling policy of Linux
 SHAP: SHapley Additive exPlanations
 
 SMT: Simultaneous Multithreading
-
-UTC: Coordinated Universal Time

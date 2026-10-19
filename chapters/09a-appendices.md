@@ -131,14 +131,14 @@ The project repository is public at \url{https://github.com/cfpandrade/linux-tai
 
 # Appendix D: Project Management and Deviations
 
-The project was planned twice. The original proposal, written for the Research Methods module, scheduled fourteen weeks of cloud experiments on a cumulative gradient of six kernel configurations. In August, after it became clear that a cumulative gradient cannot attribute a change in the tail to any one mechanism, the plan was rewritten around Bayesian optimisation and compressed to eight weeks, working back from the final submission on 19 October, with all cloud measurements to finish by 21 September. Table D.1 sets the planned milestones against what happened, using the dates of the module calendar, the git history of the repository, and the timestamps in the experiment logs.
+The project was planned twice. The original proposal, written for the Research Methods module, scheduled fourteen weeks of cloud experiments on a cumulative gradient of six kernel configurations. In August, after it became clear that a cumulative gradient cannot attribute a change in the tail to any one mechanism, the plan was rewritten around Bayesian optimisation and compressed to eight weeks, working back from the final submission on 19 October, with all cloud measurements to finish by 21 September. Table D.1 sets the planned milestones against what happened, using correspondence, the dates of the module calendar, the git history of the repository, and the timestamps in the experiment logs.
 
 | Planned | Date | Actual | Date |
 |------------------------------------------------|-----------|--------------------------------------------------------------------|--------------|
 | Original proposal (cloud gradient, fourteen weeks) | July | Proposal reviewed; gradient design found unable to attribute effects | early August |
 | Supervisor allocation and topic approval | week 1 | Supervisor contacted and topic approved | 20 August |
+| Harness built, cloud instances provisioned, PTP verified | 11 to 24 August | Measurement design corrected (ENA timestamps, Kolmogorov-Smirnov test, RQ3) | early September |
 | Revised proposal and Ethical Considerations Form | 24 to 31 August | Proposal finalised and ethics form submitted (all answers No) | 31 August |
-| Harness built, cloud instances provisioned, PTP verified | 11 to 24 August | Measurement design corrected (ENA timestamps, KS test, RQ3) | early September |
 | Cloud search and confirmation runs complete | 21 September | Decision to measure on a local workstation and to add a simulation strand | 12 October |
 | Results and discussion drafted | 28 September | Repository initialised; chapters scaffolded; local harness and first pilot | 13 October |
 | Draft implementation and results submitted | 5 October | Simulation budget study (45 minutes) and sensitivity sweep started | 14 October |
